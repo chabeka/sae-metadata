@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+extraProperties=
+projectKey=fr.urssaf.image.sae\:sae-metadata
+serverUrl=http\://sonarqube.altair.recouv
+version=2

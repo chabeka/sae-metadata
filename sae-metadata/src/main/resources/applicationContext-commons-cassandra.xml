@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+   xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+      <!-- la session cassandra à utiliser pour les connections CQL -->
+   <bean id="sessionCassandra" factory-method="getSession" factory-bean="cassandraCQLClientFactory"/>
+   <bean id="cassandraCQLClientFactory" class="fr.urssaf.image.sae.cassandra.CassandraCQLClientFactoryConfig">
+      <constructor-arg ref="cassandraServer" />
+      <constructor-arg value="${cassandra.keyspace}" />
+      <constructor-arg value="${cassandra.username}" />
+      <constructor-arg value="${cassandra.password}" />
+   </bean>
+
+	<bean id="cassandraServer" factory-method="getCassandraServerBean" factory-bean="cassandraServerBeanConfig"/>
+   <bean id="cassandraServerBeanConfig" class="fr.urssaf.image.sae.cassandra.CassandraServerBeanConfig">
+      <property name="startLocal" value="${cassandra.startlocal}"/>
+      <property name="hosts" value="${cassandra.hosts}" />
+      <property name="dataSet" value="${cassandra.dataset}"/>
+   </bean>
+	 <bean
+      class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+      <property name="locations">
+         <list>
+            <value>config/sae-config.properties</value>
+            <value>config/sae-cassandra-config.properties</value>
+         </list>
+      </property>
+   </bean>
+   
+	 <bean id="resourceSaeConfig" class="org.springframework.core.io.ClassPathResource">
+	      <constructor-arg value="config/sae-config.properties" />
+	 </bean>
+	
+	   <bean class="java.io.File" id="fileSaeConfig">
+	      <constructor-arg>
+	         <bean factory-bean="resourceSaeConfig" factory-method="getURI" />
+	      </constructor-arg>
+	   </bean>
+	
+	   <bean id="saeConfigResource" class="org.springframework.core.io.FileSystemResource">
+	      <constructor-arg>
+	         <bean factory-bean="fileSaeConfig" factory-method="getAbsolutePath" />
+	      </constructor-arg>
+	   </bean>
+
+</beans>
