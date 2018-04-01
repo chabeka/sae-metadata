@@ -1,6 +1,6 @@
 package fr.urssaf.image.sae.cassandra;
 
-import fr.urssaf.image.commons.cassandra.helper.CassandraServerBean;
+import fr.urssaf.image.sae.cassandra.common.CassandraServerBean;
 
 public class CassandraServerBeanConfig {
 

@@ -4,17 +4,18 @@
    xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+      
       <!-- la session cassandra à utiliser pour les connections CQL -->
-   <bean id="sessionCassandra" factory-method="getSession" factory-bean="cassandraCQLClientFactory"/>
-   <bean id="cassandraCQLClientFactory" class="fr.urssaf.image.sae.cassandra.CassandraCQLClientFactoryConfig">
-      <constructor-arg ref="cassandraServer" />
+   <!--  bean id="sessionCassandra" factory-method="getSession" factory-bean="cassandraCQLClientFactory"/-->
+   <bean id="cassandraCQLClientFactory" class="fr.urssaf.image.sae.cassandra.common.CassandraCQLClientFactory">
+      <constructor-arg ref="cassandraServerBean" />
       <constructor-arg value="${cassandra.keyspace}" />
       <constructor-arg value="${cassandra.username}" />
       <constructor-arg value="${cassandra.password}" />
    </bean>
 
-	<bean id="cassandraServer" factory-method="getCassandraServerBean" factory-bean="cassandraServerBeanConfig"/>
-   <bean id="cassandraServerBeanConfig" class="fr.urssaf.image.sae.cassandra.CassandraServerBeanConfig">
+	<!-- bean id="cassandraServer" factory-method="getCassandraServerBean" factory-bean="cassandraServerBeanConfig"/-->
+   <bean id="cassandraServerBean" class="fr.urssaf.image.sae.cassandra.common.CassandraServerBean">
       <property name="startLocal" value="${cassandra.startlocal}"/>
       <property name="hosts" value="${cassandra.hosts}" />
       <property name="dataSet" value="${cassandra.dataset}"/>

@@ -1,7 +1,7 @@
 package fr.urssaf.image.sae.cassandra;
 
-import fr.urssaf.image.commons.cassandra.helper.CassandraCQLClientFactory;
-import fr.urssaf.image.commons.cassandra.helper.CassandraServerBean;
+import fr.urssaf.image.sae.cassandra.common.CassandraCQLClientFactory;
+import fr.urssaf.image.sae.cassandra.common.CassandraServerBean;
 
 public class CassandraCQLClientFactoryConfig {
 
@@ -17,16 +17,18 @@ public class CassandraCQLClientFactoryConfig {
 		this.keyspace = keyspace;
 	}
 
-	public CassandraCQLClientFactory getCQLCLient() {
-		CassandraCQLClientFactory cassandraCQLClientFactory = null;
-		try {
-			cassandraCQLClientFactory =  new CassandraCQLClientFactory(cassandraBean, keyspace, username, password);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return cassandraCQLClientFactory;
-	}
+	  public CassandraCQLClientFactory getCQLCLient(final CassandraServerBeanConfig cassandraServerBeanConfig) {
+		    CassandraCQLClientFactory cassandraCQLClientFactory = null;
+		    try {
+		      final CassandraServerBean cassandraBean = cassandraServerBeanConfig.getCassandraServerBean();
+		      cassandraCQLClientFactory = new CassandraCQLClientFactory(cassandraBean, keyspace, username, password);
+
+		    }
+		    catch (final InterruptedException e) {
+		      e.printStackTrace();
+		    }
+		    return cassandraCQLClientFactory;
+		  }
 	public String getKeyspace() {
 		return keyspace;
 	}
