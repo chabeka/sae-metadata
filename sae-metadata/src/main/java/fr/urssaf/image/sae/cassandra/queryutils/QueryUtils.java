@@ -30,9 +30,7 @@ public class QueryUtils {
      * @return
      */
 	public <T> CRUDBean createCRUDBean(Class<T> bean) {
-        //ClassInformation classInformation = ClassInformations.INSTACE.getClass(bean);
         CRUDBean byKeyBean = prepare(bean, new CRUDBean());
-        //KeySpaceInformation keySpaceInformation = classInformation.getKeySpace(keySpace);
         Select select = QueryBuilder.select(byKeyBean.getArray()).from(
         		keyspace, columnFamily);
         byKeyBean.setSelect(select);
@@ -42,13 +40,13 @@ public class QueryUtils {
     
 	/**
 	 * 
-	 * @param className
+	 * @param clazz
 	 * @return
 	 */
-    public List<String> getClassCloumnsName(Class className){
+    public List<String> getClassColumnsName(Class clazz){
     	List<String> columns = new LinkedList<String>();
-    	Assert.notNull(className, "Le nom de la classe ne peut etre null");
-    	for (Field field : className.getDeclaredFields()) {
+    	Assert.notNull(clazz, "Le nom de la classe ne peut etre null");
+    	for (Field field : clazz.getDeclaredFields()) {
     		columns.add(field.getName());
     	}
 		return columns;	
@@ -57,12 +55,12 @@ public class QueryUtils {
     /**
      * ajout les colonne d'une classe (les colonnes de la column familly) pour la 
      * construction de la requete 
-     * @param className
+     * @param clazz
      * @param crudbean
      * @return
      */
-    public CRUDBean prepare(Class className, CRUDBean crudbean) {
-    	crudbean.getColumns().addAll(getClassCloumnsName(className));
+    public CRUDBean prepare(Class clazz, CRUDBean crudbean) {
+    	crudbean.getColumns().addAll(getClassColumnsName(clazz));
     	return crudbean;
     }
 }
