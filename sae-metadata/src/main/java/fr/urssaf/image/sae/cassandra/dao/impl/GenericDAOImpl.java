@@ -1,5 +1,6 @@
 package fr.urssaf.image.sae.cassandra.dao.impl;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,17 @@ public class GenericDAOImpl<CFT, CT> implements GenericDAO<CFT, CT> {
 	@Autowired
 	CassandraCQLClientFactory ccf;
 	
+	private Class<CT> beanClass;
+	
 	private String keyspace;
 	private String columnFamily;
 	private ConsistencyLevel consistency;
 	
-	
-	public CT saveOrUpdate(CT entity) {
+	public CT save(CT entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public CT update(CT entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -42,4 +48,15 @@ public class GenericDAOImpl<CFT, CT> implements GenericDAO<CFT, CT> {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	protected Session currentSession() {
+        return ccf.getSession();
+    }
+	
+	 @SuppressWarnings("unchecked")
+	public GenericDAOImpl() {
+	 ParameterizedType genericType = (ParameterizedType) this.getClass()
+                .getGenericSuperclass();
+        this.beanClass = (Class<CT>) genericType.getActualTypeArguments()[0];
+    }
 }
