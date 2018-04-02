@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.datastax.driver.core.ConsistencyLevel;
@@ -17,6 +18,8 @@ public class GenericDAOImpl<CFT, CT> implements GenericDAO<CFT, CT> {
 	
 	@Autowired
 	CassandraCQLClientFactory ccf;
+	
+	CassandraTemplate cass;
 	
 	private Class<CT> beanClass;
 	
@@ -41,7 +44,8 @@ public class GenericDAOImpl<CFT, CT> implements GenericDAO<CFT, CT> {
 		return null;
 	}
 	public List<CT> getAll() {
-		// TODO Auto-generated method stub
+		currentSession().execute("");
+		
 		return null;
 	}
 	public void remove(CT entity) {

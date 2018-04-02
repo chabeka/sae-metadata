@@ -28,7 +28,7 @@ import fr.urssaf.image.sae.model.Users;
  */
 public class App 
 {
-
+	
 	
     public static void main( String[] args )
     {
@@ -61,7 +61,7 @@ public class App
 	                   "data blob" + 
 	               ");");
 	    */
-	    QueryUtils qu = new QueryUtils("cassandrademocql", "users", ConsistencyLevel.ONE);
+	    QueryUtils qu = new QueryUtils("cassandrademocql", "users", ConsistencyLevel.ONE, session);
 	    CRUDBean crudbean = qu.createCRUDBean(Users.class);
 	    //System.out.println(columnName.toArray(new String[0]));
 	    ResultSet result = session.execute(crudbean.getSelect());

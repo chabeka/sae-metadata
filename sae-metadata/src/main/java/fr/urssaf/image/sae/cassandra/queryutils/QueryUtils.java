@@ -29,6 +29,7 @@ public class QueryUtils {
 		this.session = session;
 	}
 
+    
     public <T> List<T> listAll(Class<T> bean) {
     	
     	CRUDBean crudbean = createCRUDBean(bean);
