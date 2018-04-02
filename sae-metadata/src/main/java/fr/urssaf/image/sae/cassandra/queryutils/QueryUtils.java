@@ -10,8 +10,11 @@ import org.springframework.util.Assert;
 import com.datastax.driver.core.ConsistencyLevel;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
+
+import fr.urssaf.image.sae.cassandra.utils.ReflectionUtil;
 
 
 public class QueryUtils {
@@ -37,6 +40,13 @@ public class QueryUtils {
     	// construire la liste d'objet T à partir du resultset
         return new ArrayList<T>();
     }
+    
+    public <T> T save(Class<T> bean) {
+
+		Insert insert = createInsertStatement(bean);
+		ResultSet result =  session.execute(insert);
+		return null;
+	}
     /**
      * 
      * @param bean
@@ -76,5 +86,24 @@ public class QueryUtils {
     public CRUDBean prepare(Class clazz, CRUDBean crudbean) {
     	crudbean.getColumns().addAll(getClassColumnsName(clazz));
     	return crudbean;
+    }
+    
+    private <T> Insert createInsertStatement(Class<T> bean) {
+		Insert insert = QueryBuilder.insertInto(keyspace, columnFamily);
+		insert = createInsert(bean, insert);
+		insert.setConsistencyLevel(consistency);
+	    return insert;
+	}
+    
+    private <T> Insert createInsert(Class<T> bean, Insert insert) {
+
+        for (Field field : bean.getDeclaredFields()) {
+        	
+            Object fieldValue = ReflectionUtil.getMethod(bean, field);
+			if (fieldValue != null) {
+            	insert.value(field.getName(), fieldValue);
+            }
+        }
+        return insert;
     }
 }
