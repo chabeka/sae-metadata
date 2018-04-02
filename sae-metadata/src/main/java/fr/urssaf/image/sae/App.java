@@ -1,14 +1,26 @@
 package fr.urssaf.image.sae;
 
+import java.util.List;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.datastax.driver.core.ConsistencyLevel;
+import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.querybuilder.Delete;
+import com.datastax.driver.core.querybuilder.Insert;
+import com.datastax.driver.core.querybuilder.Select;
+import com.datastax.driver.core.querybuilder.Update;
 
 import fr.urssaf.image.sae.cassandra.CassandraCQLClientFactoryConfig;
 import fr.urssaf.image.sae.cassandra.CassandraServerBeanConfig;
 import fr.urssaf.image.sae.cassandra.common.CassandraCQLClientFactory;
 import fr.urssaf.image.sae.cassandra.common.CassandraServerBean;
+import fr.urssaf.image.sae.cassandra.queryutils.CRUDBean;
+import fr.urssaf.image.sae.cassandra.queryutils.QueryUtils;
+import fr.urssaf.image.sae.model.MetadataReference;
+import fr.urssaf.image.sae.model.Users;
 
 /**
  * Hello world!
@@ -16,6 +28,8 @@ import fr.urssaf.image.sae.cassandra.common.CassandraServerBean;
  */
 public class App 
 {
+
+	
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
@@ -37,7 +51,7 @@ public class App
 	                "{'jazz', '2013'})" +
 	            ";");
 	    */
-	     session.execute(
+	    /* session.execute(
 	             "CREATE TABLE cassandrademocql.metadata (" +
 	                   "id uuid PRIMARY KEY," + 
 	                   "title text," + 
@@ -46,7 +60,13 @@ public class App
 	                   "tags set<text>," + 
 	                   "data blob" + 
 	               ");");
+	    */
+	    QueryUtils qu = new QueryUtils("cassandrademocql", "users", ConsistencyLevel.ONE);
+	    CRUDBean crudbean = qu.createCRUDBean(Users.class);
+	    //System.out.println(columnName.toArray(new String[0]));
+	    ResultSet result = session.execute(crudbean.getSelect());
 	    
 	    System.out.println("Hello World!");
+	    
     }
 }
