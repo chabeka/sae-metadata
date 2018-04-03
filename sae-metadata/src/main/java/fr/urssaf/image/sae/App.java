@@ -3,6 +3,8 @@ package fr.urssaf.image.sae;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.cassandra.core.CassandraOperations;
+import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.stereotype.Component;
 
 import com.datastax.driver.core.Session;
@@ -20,8 +22,8 @@ import fr.urssaf.image.sae.model.Dictionary;
 @Component
 public class App 
 {
-	@Autowired
-	IDictionaryDAO dictionnary;
+	//@Autowired
+	//IDictionaryDAO dictionnary;
 	
     public static void main( String[] args )
     {
@@ -33,8 +35,10 @@ public class App
 	    final CassandraServerBean cassandraServerBean = (CassandraServerBean) context.getBean("cassandraServerBean");
 	    final CassandraCQLClientFactory ccf = (CassandraCQLClientFactory) context.getBean("cassandraCQLClientFactory");
 	    final Session session = ccf.getSession();
+	    CassandraOperations template = new CassandraTemplate(ccf.getSession());
 	    
-	    App app = context.getBean(App.class);
+	    
+	    //App app = context.getBean(App.class);
 	    //DictionaryDAOImpl dictionnary = new DictionaryDAOImpl(ccf);
 	    
 	    
@@ -44,8 +48,8 @@ public class App
 	    final Dictionary dico = new Dictionary();
 	    dico.setId("aszqedzqsaed");
 	    dico.setValue("aaaa");
-	    
-	    app.dictionnary.save(dico);
+	    template.insert(dico);
+	    //app.dictionnary.save(dico);
 	    
 	    /*session.execute(
 	            "INSERT INTO cassandrademocql.songs (id, title, album, artist, tags) " +
