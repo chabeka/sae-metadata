@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,7 @@ public class GenericDAOImpl<CFT, CT> implements GenericDAO<CFT, CT> {
 	
 	public CT save(CT entity) {
 		// TODO Auto-generated method stub
+		getTemplate().insert(entity);
 		return null;
 	}
 	public CT update(CT entity) {
@@ -57,10 +59,15 @@ public class GenericDAOImpl<CFT, CT> implements GenericDAO<CFT, CT> {
         return ccf.getSession();
     }
 	
+	public CassandraOperations getTemplate() {
+	    final CassandraOperations template = new CassandraTemplate(ccf.getSession());
+	    return template;
+	 }
+	
 	 @SuppressWarnings("unchecked")
 	public GenericDAOImpl() {
-	 ParameterizedType genericType = (ParameterizedType) this.getClass()
+	 /*ParameterizedType genericType = (ParameterizedType) this.getClass()
                 .getGenericSuperclass();
-        this.beanClass = (Class<CT>) genericType.getActualTypeArguments()[0];
+        this.beanClass = (Class<CT>) genericType.getActualTypeArguments()[0];*/
     }
 }
