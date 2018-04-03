@@ -10,7 +10,7 @@ import fr.urssaf.image.sae.model.Dictionary;
 /**
  * TODO (AC75095028) Description du type
  */
-@Repository
+
 public class DictionaryDAOImpl extends GenericDAOImpl<String, Dictionary> {
 
 }

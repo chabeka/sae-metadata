@@ -37,6 +37,8 @@
       </property>
    </bean>
    
+     <bean id="dictionaryDAOImpl" class="fr.urssaf.image.sae.cassandra.dao.impl.DictionaryDAOImpl"></bean>
+   
 	 <bean id="resourceSaeConfig" class="org.springframework.core.io.ClassPathResource">
 	      <constructor-arg value="config/sae-config.properties" />
 	 </bean>
