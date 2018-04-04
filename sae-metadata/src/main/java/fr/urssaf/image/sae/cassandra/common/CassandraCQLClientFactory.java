@@ -25,7 +25,6 @@ import com.datastax.driver.core.QueryOptions;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.policies.LoadBalancingPolicy;
 
-
 /**
  * Factory pour récupérer une connexion à cassandra.
  * Utile pour faire des instantiations via spring
@@ -61,6 +60,8 @@ public final class CassandraCQLClientFactory implements DisposableBean {
 
   private Session session;
 
+  private String keyspace;
+
   /**
    * Constructeur utilisé pour le transfert.
    *
@@ -76,7 +77,7 @@ public final class CassandraCQLClientFactory implements DisposableBean {
       saeProperties.load(saeConfigResource.getInputStream());
     }
     catch (final IOException e) {
-      //throw new CassandraConfigurationException(e);
+      // throw new CassandraConfigurationException(e);
     }
 
     final String pathConfCassandraTransfert = saeProperties
@@ -93,7 +94,7 @@ public final class CassandraCQLClientFactory implements DisposableBean {
         cassandraProp.load(new FileInputStream(pathConfCassandraTransfert));
       }
       catch (final IOException e) {
-        //throw new CassandraConfigurationException(e);
+        // throw new CassandraConfigurationException(e);
       }
 
       final String hosts = cassandraProp.getProperty(CASSANDRA_HOSTS);
@@ -113,6 +114,7 @@ public final class CassandraCQLClientFactory implements DisposableBean {
       // on est dans le cas ou la connexion de transfert n'est pas configuree
       // on utilise un keyspace bidon
       this.session = null;
+      this.keyspace = null;
     }
   }
 
@@ -170,8 +172,10 @@ public final class CassandraCQLClientFactory implements DisposableBean {
                           //.withCredentials(userName, password)
                           //.withPoolingOptions(poolingOptions)
                           //.withQueryOptions(qo)
+                          //.withClusterName("SAE-MIG")
                           .build();
     this.session = this.cluster.connect(keyspaceName);
+    this.keyspace = keyspaceName;
 
     this.launchSessionMonitor();
   }
@@ -258,7 +262,6 @@ public final class CassandraCQLClientFactory implements DisposableBean {
     }, 5, 5, TimeUnit.SECONDS);*/
   }
 
- 
   public void destroy() throws Exception {
     if (this.session != null) {
       this.session.close();
@@ -278,6 +281,13 @@ public final class CassandraCQLClientFactory implements DisposableBean {
    */
   public Session getSession() {
     return session;
+  }
+
+  /**
+   * @return the keyspace
+   */
+  public String getKeyspace() {
+    return keyspace;
   }
 
 }

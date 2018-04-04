@@ -6,24 +6,25 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
-
-		<!-- Encodage de caractères -->
+      
+      <!-- Encodage de caractères -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- Version des plug-ins Maven -->
-
-
-		<!-- Version des framework -->
-		<spring.framework.version>3.0.5.RELEASE</spring.framework.version>
+      
+      <!-- Version des plug-ins Maven -->
+     
+      
+      <!-- Version des framework -->
+		<spring.framework.version>5.0.5.RELEASE</spring.framework.version>
 		<apache.commons-lang.version>2.6</apache.commons-lang.version>
 		<apache.commons-collections.version>3.2.1</apache.commons-collections.version>
+		<spring.cassandra.version>2.0.0.RELEASE</spring.cassandra.version>
 
 
 	</properties>
 
 	<dependencies>
-
-		<!-- Apache commons -->
+  
+  	      <!-- Apache commons -->
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -40,7 +41,7 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Spring -->
+		      <!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -57,8 +58,15 @@
 			<version>${spring.framework.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-cassandra</artifactId>
+			<version>${spring.cassandra.version}</version>
+		</dependency>
+      <!-- https://mvnrepository.com/artifact/org.cassandraunit/cassandra-unit -->
 
-		<!-- JAVA DRIVER DATASTAX -->
+		
+			<!--  JAVA DRIVER DATASTAX-->
 		<dependency>
 			<groupId>com.datastax.cassandra</groupId>
 			<artifactId>cassandra-driver-core</artifactId>
@@ -81,17 +89,11 @@
 			<version>3.4.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>io.netty</groupId>
-		    <artifactId>netty-handler</artifactId>
-		    <version>4.1.12.Final</version>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-handler</artifactId>
+			<version>4.1.12.Final</version>
 		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.data</groupId>
-		    <artifactId>spring-data-cassandra</artifactId>
-		    <version>2.0.5.RELEASE</version>
-		</dependency>
-				
+
 
 	</dependencies>
 </project>

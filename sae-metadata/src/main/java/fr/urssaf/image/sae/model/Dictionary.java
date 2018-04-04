@@ -3,6 +3,8 @@
  */
 package fr.urssaf.image.sae.model;
 
+import java.util.UUID;
+
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -14,14 +16,14 @@ import org.springframework.data.cassandra.core.mapping.Table;
 public class Dictionary {
 
   @PrimaryKey
-  private String id;
+  private UUID id;
 
   private String value;
 
   /**
    * @return the id
    */
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
@@ -29,7 +31,7 @@ public class Dictionary {
    * @param id
    *          the id to set
    */
-  public void setId(final String id) {
+  public void setId(final UUID id) {
     this.id = id;
   }
 
@@ -46,6 +48,14 @@ public class Dictionary {
    */
   public void setValue(final String value) {
     this.value = value;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String toString() {
+    return "Dictionary [id=" + id + ", value=" + value + "]";
   }
 
 }
